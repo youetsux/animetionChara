@@ -3,8 +3,9 @@
 
 
 
+
 Player::Player()
-	:GameChara(),frameNum(0),CDTimer(ANIME_INTERVAL)
+	:GameChara(),frameNum(0)
 {
 	RectF temp[]{ {0,0,PLAYER_RECT_SIZE},{221,0,PLAYER_RECT_SIZE}, {442,0,PLAYER_RECT_SIZE},{663,0,PLAYER_RECT_SIZE}, {884,0,PLAYER_RECT_SIZE},
 				 {0,154,PLAYER_RECT_SIZE},{221,154,PLAYER_RECT_SIZE},{442,154,PLAYER_RECT_SIZE} };
@@ -50,7 +51,11 @@ direction Player::GetDirection()
 void Player::Update()
 {
 	//CDTimerが<0になったら、フレームナムを１増加させ、CDTimerをリセット（ANIME_INTERVALにもどす）
-	frameNum = (frameNum + 1)%8;
+	if (timer.IsTimeOver()) {
+		frameNum = (frameNum + 1) % 8;
+		timer.ResetTimer();
+	}
+	timer.Update();
 
 	direction d = GetDirection();
 	switch (d)
@@ -78,3 +83,33 @@ void Player::Draw()
 	}
 }
 
+
+
+
+bool Player::CDTIMER::IsTimeOver()
+{
+	return(CDTimer_ <  0);
+}
+
+void Player::CDTIMER::ResetTimer()
+{
+	CDTimer_ = ANIME_INTERVAL;
+	StartTimer();
+}
+
+void Player::CDTIMER::StartTimer()
+{
+	isTimerRun_ = true;
+}
+
+void Player::CDTIMER::STopTimer()
+{
+	isTimerRun_ = false;
+}
+
+void Player::CDTIMER::Update()
+{
+	if (isTimerRun_)
+		CDTimer_ = CDTimer_ - Scene::DeltaTime();
+	//Print << CDTimer_;
+}

@@ -8,7 +8,7 @@ const SizeF PLAYER_CHR_SIZE{ 221, 154 }; //がぞうさいず
 const SizeF PLAYER_RECT_SIZE{ 221, 154 }; //当たり判定用のBBのサイズ
 const double PLAYER_MOVE_SPEED{ PLAYER_CHR_SIZE.x * 1.5 }; //プレイヤーの動作スピード
 const int MAX_FRAME_NUM{ 8 };//アニメのコマ数
-const double ANIME_INTERVAL{ 60 / 20.0 };
+const double ANIME_INTERVAL{ 1 / 24.0 };
 
 enum direction
 {
@@ -20,10 +20,21 @@ class Player :
     public GameChara
 {
 	int frameNum;//今のアニメフレームは何フレーム目？
-	double CDTimer;
+	class CDTIMER {
+	public:
+		CDTIMER():CDTimer_(ANIME_INTERVAL),isTimerRun_(true){}
+		double CDTimer_;
+		bool IsTimeOver();
+		void ResetTimer();
+		void StartTimer();
+		void STopTimer();
+		bool isTimerRun_;
+		void Update();
+	};
 public:
 	Player();
 	~Player();//解放処理ここでやる？
+	CDTIMER timer;
 	vector<RectF> frames_;
 	void Initialize();
 	void Release();//それともここでやる？
