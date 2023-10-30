@@ -7,12 +7,9 @@
 Player::Player()
 	:GameChara(),frameNum(0)
 {
-	RectF temp[]{ {0,0,PLAYER_RECT_SIZE},{221,0,PLAYER_RECT_SIZE}, {442,0,PLAYER_RECT_SIZE},{663,0,PLAYER_RECT_SIZE}, {884,0,PLAYER_RECT_SIZE},
+	frames_ ={ {0,0,PLAYER_RECT_SIZE},{221,0,PLAYER_RECT_SIZE}, {442,0,PLAYER_RECT_SIZE},{663,0,PLAYER_RECT_SIZE}, {884,0,PLAYER_RECT_SIZE},
 				 {0,154,PLAYER_RECT_SIZE},{221,154,PLAYER_RECT_SIZE},{442,154,PLAYER_RECT_SIZE} };
-	for (int i = 0; i < 8; i++)
-	{
-		frames_.push_back(temp[i]);
-	}
+
 	Vec2 chrMargin{ 0, Scene::Height() / 2 - PLAYER_CHR_SIZE.x * 2 };
 	pos_ = Scene::Center() + chrMargin;
 	speed_ = PLAYER_MOVE_SPEED;
